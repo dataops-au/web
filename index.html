@@ -8,16 +8,12 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Jersey+15+Charted&family=Monomaniac+One&family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap" rel="stylesheet">
 <style>
-  *, *::before, *::after {
-    box-sizing: border-box;
-  }
-
+  *, *::before, *::after { box-sizing: border-box; }
   html, body {
     margin: 0;
     height: 100%;
     font-family: 'Monomaniac One', monospace;
   }
-
   main {
     height: 100%;
     display: flex;
@@ -28,7 +24,6 @@
     color: #fff;
     text-align: center;
   }
-
   main::after {
     content: "";
     background: rgba(0, 0, 0, 0.18);
@@ -36,18 +31,15 @@
     top: 0; right: 0; bottom: 0; left: 0;
     z-index: 0;
   }
-
   .content {
     position: relative;
     z-index: 1;
     padding: 2rem;
   }
-
   h1 {
     font-size: 2.2em;
     margin-bottom: 0.5em;
   }
-
   p {
     font-family: 'Jersey 15 Charted', cursive;
     font-size: 1.75em;
@@ -56,7 +48,6 @@
     overflow: hidden;
     animation: typing 4s steps(40, end);
   }
-
   button.mailto-link {
     background-color: #007bff;
     color: #fff;
@@ -69,18 +60,15 @@
     transition: transform 0.3s, box-shadow 0.3s, background-color 0.3s;
     box-shadow: 0 4px 6px rgba(0,0,0,0.2);
   }
-
   button.mailto-link:hover {
     background-color: #0056b3;
     transform: translateY(-3px);
     box-shadow: 0 6px 6px rgba(0,0,0,0.3);
   }
-
   button.mailto-link:active {
     transform: translateY(1px);
     box-shadow: 0 3px 3px rgba(0,0,0,0.2);
   }
-
   .modal {
     display: none;
     position: fixed;
@@ -90,11 +78,9 @@
     align-items: center;
     justify-content: center;
   }
-
   .modal.active {
     display: flex;
   }
-
   .modal-content {
     background: #fff;
     color: #000;
@@ -106,7 +92,6 @@
     font-weight: 600;
     position: relative;
   }
-
   .close {
     position: absolute;
     top: 1rem;
@@ -117,11 +102,9 @@
     color: #aaa;
     cursor: pointer;
   }
-
   .close:hover {
     color: #000;
   }
-
   input[type="text"], input[type="email"], textarea {
     width: 100%;
     padding: 12px;
@@ -130,7 +113,6 @@
     border-radius: 4px;
     resize: vertical;
   }
-
   button[type="submit"] {
     background-color: #007bff;
     color: #fff;
@@ -142,11 +124,9 @@
     margin-top: 1rem;
     font-family: 'Monomaniac One', monospace;
   }
-
   button[type="submit"]:hover {
     background-color: #0056b3;
   }
-
   footer {
     position: absolute;
     bottom: 10px;
@@ -155,13 +135,11 @@
     color: white;
     font-size: 0.8em;
   }
-
   footer a {
     color: white;
     text-decoration: underline;
     cursor: pointer;
   }
-
   @keyframes typing {
     from { width: 0 }
     to { width: 100% }
@@ -213,9 +191,12 @@
   <div class="modal-content">
     <button class="close" aria-label="Close modal">&times;</button>
     <h2 id="privacyTitle">Privacy Policy</h2>
-    <p>DataOps.AU operates as a small consultancy and is currently exempt from the Australian Privacy Act 1988 due to having an annual turnover below $3 million. However, we voluntarily follow best practices.</p>
-    <p>We collect your name and email address when you submit the contact form. We also collect non-identifiable browser details such as your device type, browser version, screen resolution, and referrer information to improve the quality of our service.</p>
-    <p>This data is used only for internal purposes and is never sold or shared. If you’d like your data removed, please email us directly via the contact form.</p>
+    <p>DataOps.AU respects your privacy. We collect limited information when you use this site to help us improve our services and respond to enquiries.</p>
+    <p>Data collected may include your name and email address (when submitted via forms), as well as non-identifying browser information such as device type, operating system, screen resolution, language, and referral source. This helps us understand how users interact with the site.</p>
+    <p>You may choose to opt out of this data collection at any time. If you opt out, only the information you explicitly submit will be collected.</p>
+    <p>Your data is not sold or shared with third parties. If you have concerns or wish to have your information deleted, please contact us via the form.</p>
+    <button id="optOutBtn">Opt Out of Passive Data Collection</button>
+    <button id="optInBtn" style="display:none;">Opt In to Passive Data Collection</button>
   </div>
 </section>
 
@@ -224,6 +205,48 @@
 </footer>
 
 <script>
+  function setCookie(name, value, days) {
+    const expires = new Date(Date.now() + days * 864e5).toUTCString();
+    document.cookie = name + '=' + encodeURIComponent(value) + '; expires=' + expires + '; path=/';
+  }
+
+  function getCookie(name) {
+    return document.cookie.split('; ').reduce((r, v) => {
+      const parts = v.split('=');
+      return parts[0] === name ? decodeURIComponent(parts[1]) : r
+    }, '');
+  }
+
+  function updatePassiveFields(optedOut) {
+    document.getElementById("user_agent").value = optedOut ? "opted-out" : navigator.userAgent;
+    document.getElementById("screen_resolution").value = optedOut ? "opted-out" : `${screen.width}x${screen.height}`;
+    document.getElementById("timezone").value = optedOut ? "opted-out" : Intl.DateTimeFormat().resolvedOptions().timeZone;
+    document.getElementById("language").value = optedOut ? "opted-out" : (navigator.language || navigator.userLanguage);
+    document.getElementById("referrer").value = optedOut ? "opted-out" : document.referrer;
+    document.getElementById("platform").value = optedOut ? "opted-out" : navigator.platform;
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    const optedOut = getCookie("dataops_optout") === "true";
+    updatePassiveFields(optedOut);
+    document.getElementById("optOutBtn").style.display = optedOut ? "none" : "inline-block";
+    document.getElementById("optInBtn").style.display = optedOut ? "inline-block" : "none";
+  });
+
+  document.getElementById("optOutBtn").addEventListener("click", () => {
+    setCookie("dataops_optout", "true", 365);
+    updatePassiveFields(true);
+    document.getElementById("optOutBtn").style.display = "none";
+    document.getElementById("optInBtn").style.display = "inline-block";
+  });
+
+  document.getElementById("optInBtn").addEventListener("click", () => {
+    setCookie("dataops_optout", "false", 365);
+    updatePassiveFields(false);
+    document.getElementById("optOutBtn").style.display = "inline-block";
+    document.getElementById("optInBtn").style.display = "none";
+  });
+
   const openModal = document.getElementById('openModal');
   const contactModal = document.getElementById('contactModal');
   const successModal = document.getElementById('successModal');
@@ -250,15 +273,6 @@
 
   const form = document.getElementById('contact-form');
   const status = document.getElementById('form-status');
-
-  document.addEventListener("DOMContentLoaded", () => {
-    document.getElementById("user_agent").value = navigator.userAgent;
-    document.getElementById("screen_resolution").value = `${screen.width}x${screen.height}`;
-    document.getElementById("timezone").value = Intl.DateTimeFormat().resolvedOptions().timeZone;
-    document.getElementById("language").value = navigator.language || navigator.userLanguage;
-    document.getElementById("referrer").value = document.referrer;
-    document.getElementById("platform").value = navigator.platform;
-  });
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
