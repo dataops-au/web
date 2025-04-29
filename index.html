@@ -1,190 +1,183 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Data Ops Australia</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Jersey+15+Charted&family=Monomaniac+One&family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap" rel="stylesheet">
-<style>
-  *, *::before, *::after { box-sizing: border-box; }
-  html, body {
-    margin: 0;
-    height: 100%;
-    font-family: 'Monomaniac One', monospace;
-  }
-  main {
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: url('dataops-au_home.webp') center/cover no-repeat;
-    position: relative;
-    color: #fff;
-    text-align: center;
-  }
-  main::after {
-    content: "";
-    background: rgba(0, 0, 0, 0.18);
-    position: absolute;
-    top: 0; right: 0; bottom: 0; left: 0;
-    z-index: 0;
-  }
-  .content {
-    position: relative;
-    z-index: 1;
-    padding: 2rem;
-  }
-  .content > p {
-    font-family: 'Jersey 15 Charted', cursive;
-    font-size: 1.75em;
-    margin-bottom: 1.5em;
-    color: #ffffff;
-    background: rgba(0, 0, 0, 0.45);
-    padding: 0.4em 1em;
-    border-radius: 10px;
-    display: inline-block;
-    line-height: 1.4;
-    font-weight: 500;
-    text-shadow: none;
-  }
-  h1 {
-    font-size: 2.2em;
-    margin-bottom: 0.5em;
-  }
-  button.mailto-link {
-    background-color: #007bff;
-    color: #fff;
-    padding: 15px 25px;
-    font-size: 1em;
-    font-weight: bold;
-    border: none;
-    border-radius: 50px;
-    cursor: pointer;
-    transition: transform 0.3s, box-shadow 0.3s, background-color 0.3s;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
-    font-family: 'Monomaniac One', monospace;
-  }
-  button.mailto-link:hover {
-    background-color: #0056b3;
-    transform: translateY(-3px);
-    box-shadow: 0 6px 6px rgba(0,0,0,0.3);
-  }
-  button.mailto-link:active {
-    transform: translateY(1px);
-    box-shadow: 0 3px 3px rgba(0,0,0,0.2);
-  }
-  button[type="submit"] {
-    background-color: #007bff;
-    color: #fff;
-    padding: 15px 25px;
-    font-size: 1em;
-    font-weight: bold;
-    border: none;
-    border-radius: 50px;
-    cursor: pointer;
-    transition: transform 0.3s, box-shadow 0.3s, background-color 0.3s;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
-    font-family: 'Monomaniac One', monospace;
-  }
-  button[type="submit"]:hover {
-    background-color: #0056b3;
-    transform: translateY(-3px);
-    box-shadow: 0 6px 6px rgba(0,0,0,0.3);
-  }
-  button[type="submit"]:active {
-    transform: translateY(1px);
-    box-shadow: 0 3px 3px rgba(0,0,0,0.2);
-  }
-  .modal {
-    display: none;
-    position: fixed;
-    z-index: 10;
-    inset: 0;
-    background: rgba(0,0,0,0.8);
-    align-items: center;
-    justify-content: center;
-  }
-  .modal.active {
-    display: flex;
-  }
-  .modal-content {
-    background: #fff;
-    color: #000;
-    padding: 2rem;
-    border-radius: 10px;
-    max-width: 500px;
-    width: 90%;
-    font-family: 'Nunito Sans', sans-serif;
-    font-size: 1rem;
-    font-weight: 400;
-    line-height: 1.6;
-    position: relative;
-  }
-  .modal-content button {
-    margin-top: 1.5rem;
-    background-color: #007bff;
-    color: white;
-    padding: 15px 25px;
-    font-size: 1em;
-    font-weight: bold;
-    border: none;
-    border-radius: 50px;
-    cursor: pointer;
-    transition: transform 0.3s, box-shadow 0.3s, background-color 0.3s;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
-    font-family: 'Monomaniac One', monospace;
-  }
-  .modal-content button:hover {
-    background-color: #0056b3;
-    transform: translateY(-3px);
-    box-shadow: 0 6px 6px rgba(0,0,0,0.3);
-  }
-  .modal-content button:active {
-    transform: translateY(1px);
-    box-shadow: 0 3px 3px rgba(0,0,0,0.2);
-  }
-  .close {
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
-    background: transparent;
-    border: none;
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: #333;
-    cursor: pointer;
-  }
-  .close:hover {
-    color: #000;
-  }
-  input[type="text"], input[type="email"], textarea {
-    width: 100%;
-    padding: 12px;
-    margin: 8px 0;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    resize: vertical;
-  }
-  footer {
-    position: absolute;
-    bottom: 10px;
-    width: 100%;
-    text-align: center;
-    color: white;
-    font-size: 0.8em;
-  }
-  footer a {
-    color: white;
-    text-decoration: underline;
-    cursor: pointer;
-  }
-  @keyframes typing {
-    from { width: 0 }
-    to { width: 100% }
-  }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Data Ops Australia</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Jersey+15+Charted&family=Monomaniac+One&family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      height: 100%;
+      font-family: 'Monomaniac One', monospace;
+    }
+    main {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: url('dataops-au_home.webp') center/cover no-repeat;
+      position: relative;
+      color: #fff;
+      text-align: center;
+    }
+    main::after {
+      content: "";
+      background: rgba(0,0,0,0.18);
+      position: absolute;
+      top: 0; right: 0; bottom: 0; left: 0;
+      z-index: 0;
+    }
+    .content {
+      position: relative;
+      z-index: 1;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.5rem;
+    }
+    h1 {
+      font-size: 2.2em;
+      margin: 0;
+    }
+    .content > p {
+      font-family: 'Jersey 15 Charted', cursive;
+      font-size: 1.75em;
+      margin: 0;
+      color: #fff;
+      background: rgba(0,0,0,0.45);
+      padding: 0.5em 1em;
+      border-radius: 10px;
+      display: inline-block;
+      line-height: 1.4;
+      font-weight: 500;
+    }
+    button.mailto-link {
+      background-color: #000;
+      color: #fff;
+      padding: 15px 30px;
+      font-size: 1em;
+      font-weight: bold;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: transform 0.3s, box-shadow 0.3s;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.4);
+      font-family: 'Monomaniac One', monospace;
+    }
+    button.mailto-link:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 6px rgba(0,0,0,0.5);
+    }
+    button[type="submit"] {
+      background-color: #000;
+      color: #fff;
+      padding: 15px 30px;
+      font-size: 1em;
+      font-weight: bold;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: transform 0.3s, box-shadow 0.3s;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.4);
+      font-family: 'Monomaniac One', monospace;
+    }
+    button[type="submit"]:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 6px rgba(0,0,0,0.5);
+    }
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 10;
+      inset: 0;
+      background: rgba(0,0,0,0.8);
+      align-items: center;
+      justify-content: center;
+    }
+    .modal.active {
+      display: flex;
+    }
+    .modal-content {
+      background: #fff;
+      color: #000;
+      padding: 2rem;
+      border-radius: 10px;
+      max-width: 500px;
+      width: 90%;
+      font-family: 'Nunito Sans', sans-serif;
+      font-size: 1rem;
+      line-height: 1.6;
+      position: relative;
+    }
+    .modal-content h2 {
+      font-size: 1.8em;
+      margin: 0 0 1rem;
+      font-weight: 700;
+    }
+    .modal-content button {
+      margin-top: 1.5rem;
+      background-color: #000;
+      color: #fff;
+      padding: 15px 30px;
+      font-size: 1em;
+      font-weight: bold;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: transform 0.3s, box-shadow 0.3s;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.4);
+      font-family: 'Monomaniac One', monospace;
+    }
+    .modal-content button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 6px rgba(0,0,0,0.5);
+    }
+    .close {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: #000;
+      color: #fff;
+      border: none;
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      font-size: 1.25rem;
+      line-height: 1;
+      cursor: pointer;
+    }
+    .close:hover {
+      opacity: 0.85;
+    }
+    input[type="text"], input[type="email"], textarea {
+      width: 100%;
+      padding: 12px;
+      margin: 8px 0;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      resize: vertical;
+      font-family: 'Nunito Sans', sans-serif;
+    }
+    footer {
+      position: absolute;
+      bottom: 10px;
+      width: 100%;
+      text-align: center;
+      font-size: 0.8em;
+    }
+    footer a {
+      color: #fff;
+      text-decoration: underline;
+      text-transform: uppercase;
+      font-weight: bold;
+      cursor: pointer;
+    }
+  </style>
 </head>
 <body>
 
@@ -241,86 +234,87 @@
 </section>
 
 <footer>
-  <a id="openPrivacy">privacy</a>
+  <a id="openPrivacy">PRIVACY</a>
 </footer>
 
 <script>
-function setCookie(name, value, days) {
-  const expires = new Date(Date.now() + days * 864e5).toUTCString();
-  document.cookie = name + '=' + encodeURIComponent(value) + '; expires=' + expires + '; path=/';
-}
-function getCookie(name) {
-  return document.cookie.split('; ').reduce((r, v) => {
-    const parts = v.split('=');
-    return parts[0] === name ? decodeURIComponent(parts[1]) : r
-  }, '');
-}
-function updatePassiveFields(optedOut) {
-  document.getElementById("user_agent").value = optedOut ? "opted-out" : navigator.userAgent;
-  document.getElementById("screen_resolution").value = optedOut ? "opted-out" : `${screen.width}x${screen.height}`;
-  document.getElementById("timezone").value = optedOut ? "opted-out" : Intl.DateTimeFormat().resolvedOptions().timeZone;
-  document.getElementById("language").value = optedOut ? "opted-out" : (navigator.language || navigator.userLanguage);
-  document.getElementById("referrer").value = optedOut ? "opted-out" : document.referrer;
-  document.getElementById("platform").value = optedOut ? "opted-out" : navigator.platform;
-}
-document.addEventListener("DOMContentLoaded", () => {
-  const optedOut = getCookie("dataops_optout") === "true";
-  updatePassiveFields(optedOut);
-  document.getElementById("optOutBtn").style.display = optedOut ? "none" : "inline-block";
-  document.getElementById("optInBtn").style.display = optedOut ? "inline-block" : "none";
-});
-document.getElementById("optOutBtn").addEventListener("click", () => {
-  setCookie("dataops_optout", "true", 365);
-  updatePassiveFields(true);
-  document.getElementById("optOutBtn").style.display = "none";
-  document.getElementById("optInBtn").style.display = "inline-block";
-});
-document.getElementById("optInBtn").addEventListener("click", () => {
-  setCookie("dataops_optout", "false", 365);
-  updatePassiveFields(false);
-  document.getElementById("optOutBtn").style.display = "inline-block";
-  document.getElementById("optInBtn").style.display = "none";
-});
-const openModal = document.getElementById('openModal');
-const contactModal = document.getElementById('contactModal');
-const successModal = document.getElementById('successModal');
-const privacyModal = document.getElementById('privacyModal');
-const closeButtons = document.querySelectorAll('.close');
-const openPrivacy = document.getElementById('openPrivacy');
-openModal.addEventListener('click', () => contactModal.classList.add('active'));
-openPrivacy.addEventListener('click', () => privacyModal.classList.add('active'));
-closeButtons.forEach(btn => {
-  btn.addEventListener('click', () => {
-    contactModal.classList.remove('active');
-    successModal.classList.remove('active');
-    privacyModal.classList.remove('active');
-  });
-});
-window.addEventListener('click', (e) => {
-  if (e.target === contactModal) contactModal.classList.remove('active');
-  if (e.target === successModal) successModal.classList.remove('active');
-  if (e.target === privacyModal) privacyModal.classList.remove('active');
-});
-const form = document.getElementById('contact-form');
-const status = document.getElementById('form-status');
-form.addEventListener('submit', async (e) => {
-  e.preventDefault();
-  const data = new FormData(form);
-  const res = await fetch(form.action, {
-    method: form.method,
-    body: data,
-    headers: { 'Accept': 'application/json' }
-  });
-  if (res.ok) {
-    form.reset();
-    contactModal.classList.remove('active');
-    successModal.classList.add('active');
-    status.textContent = '';
-  } else {
-    const json = await res.json();
-    status.textContent = json.errors ? json.errors.map(err => err.message).join(', ') : 'Oops! Something went wrong.';
+  function setCookie(name, value, days) {
+    const expires = new Date(Date.now() + days*864e5).toUTCString();
+    document.cookie = `${name}=${encodeURIComponent(value)}; expires=${expires}; path=/`;
   }
-});
+  function getCookie(name) {
+    return document.cookie.split('; ').reduce((r,v) => {
+      const [key,val] = v.split('=');
+      return key===name ? decodeURIComponent(val) : r;
+    }, '');
+  }
+  function updatePassiveFields(optedOut) {
+    document.getElementById("user_agent").value      = optedOut ? "opted-out" : navigator.userAgent;
+    document.getElementById("screen_resolution").value = optedOut ? "opted-out" : `${screen.width}x${screen.height}`;
+    document.getElementById("timezone").value        = optedOut ? "opted-out" : Intl.DateTimeFormat().resolvedOptions().timeZone;
+    document.getElementById("language").value        = optedOut ? "opted-out" : (navigator.language||navigator.userLanguage);
+    document.getElementById("referrer").value        = optedOut ? "opted-out" : document.referrer;
+    document.getElementById("platform").value        = optedOut ? "opted-out" : navigator.platform;
+  }
+  document.addEventListener("DOMContentLoaded", () => {
+    const optedOut = getCookie("dataops_optout")==="true";
+    updatePassiveFields(optedOut);
+    document.getElementById("optOutBtn").style.display = optedOut ? "none" : "inline-block";
+    document.getElementById("optInBtn").style.display  = optedOut ? "inline-block" : "none";
+  });
+  document.getElementById("optOutBtn").addEventListener("click", () => {
+    setCookie("dataops_optout","true",365);
+    updatePassiveFields(true);
+    document.getElementById("optOutBtn").style.display = "none";
+    document.getElementById("optInBtn").style.display  = "inline-block";
+  });
+  document.getElementById("optInBtn").addEventListener("click", () => {
+    setCookie("dataops_optout","false",365);
+    updatePassiveFields(false);
+    document.getElementById("optOutBtn").style.display = "inline-block";
+    document.getElementById("optInBtn").style.display  = "none";
+  });
+
+  const openModal    = document.getElementById('openModal');
+  const openPrivacy  = document.getElementById('openPrivacy');
+  const contactModal = document.getElementById('contactModal');
+  const privacyModal = document.getElementById('privacyModal');
+  const closeBtns    = document.querySelectorAll('.close');
+
+  openModal.addEventListener('click',  () => contactModal.classList.add('active'));
+  openPrivacy.addEventListener('click',() => privacyModal.classList.add('active'));
+
+  closeBtns.forEach(btn => btn.addEventListener('click', () => {
+    contactModal.classList.remove('active');
+    privacyModal.classList.remove('active');
+    document.getElementById('successModal')?.classList.remove('active');
+  }));
+
+  window.addEventListener('click', e => {
+    if (e.target===contactModal) contactModal.classList.remove('active');
+    if (e.target===privacyModal) privacyModal.classList.remove('active');
+    if (e.target===document.getElementById('successModal')) document.getElementById('successModal').classList.remove('active');
+  });
+
+  const form = document.getElementById('contact-form');
+  const status = document.getElementById('form-status');
+  form.addEventListener('submit', async e => {
+    e.preventDefault();
+    const res = await fetch(form.action, {
+      method: form.method,
+      body: new FormData(form),
+      headers: {'Accept':'application/json'}
+    });
+    if (res.ok) {
+      form.reset();
+      contactModal.classList.remove('active');
+      document.getElementById('successModal').classList.add('active');
+      status.textContent = '';
+    } else {
+      const json = await res.json();
+      status.textContent = json.errors ? json.errors.map(err => err.message).join(', ') : 'Oops! Something went wrong.';
+    }
+  });
 </script>
 
 </body>
